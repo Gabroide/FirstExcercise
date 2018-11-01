@@ -2,15 +2,16 @@
 
 #include <vector>
 
-#include "Grid.h"
 #include "ModuleWindow.h"
-#include "Object.h"
 #include "ModuleTextures.h"
 
 #include "GL/glew.h"
 #include "SDL.h"
 #include "MathGeoLib/include/Geometry/Frustum.h"
-//#include "CameraMove.h"
+
+#include "Grid.h"
+#include "Object.h"
+#include "CameraMove.h"
 
 #define EULER_NUM 2.71881f
 
@@ -26,10 +27,10 @@ bool Grid::Init()
 {
 
 	// Create Objects
-	//triangle = new Object();
-	//triangle->position = { 0.0f, 2.0f, 1.0f };
-	//triangle->scale = { 1.0f, 1.0f, 1.0f };
-	//triangle->rotation = { 0.0f, 0.0f, 0.0f };
+	triangle = new Object();
+	triangle->position = { 0.0f, 2.0f, 1.0f };
+	triangle->scale = { 1.0f, 1.0f, 1.0f };
+	triangle->rotation = { 0.0f, 0.0f, 0.0f };
 
 	// (x,y,z,uv0,uv1)
 	triangle->AddVertex(-2.0f, 2.0f, 0.0f, 0.0f, 1.0f);
@@ -41,11 +42,11 @@ bool Grid::Init()
 	camera->position = { 0.0f, 1.0f, 10.0f };
 	camera->scale = { 1.0f, 1.0f, 1.0f };
 	camera->rotation = { 0.0f, 0.0f, 0.0f };
-	//camera->behaviours.push_back(new CameraMove(camera));
+	camera->behaviours.push_back(new CameraMove(camera));
 
 	// Load GL Program
-	//LoadShaderProgram();
-	//glUseProgram(program);
+	LoadShaderProgram();
+	glUseProgram(program);
 
 	// Fill Buffer
 	std::vector<float>* vertex_buffer_data = triangle->GetVertices();
@@ -59,12 +60,12 @@ bool Grid::Init()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
 
-	/*const char* filename = "Lenna.png";
+	const char* filename = "Lenna.png";
 	textureID = App->textures->Load(filename);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	glUniform1i(glGetUniformLocation(program, "texture0"), 0);
-	*/
+
 	// Set Projection, View & Model
 	math::float4x4 model = triangle->ModelMatrix();
 	math::float4x4 view = camera->ModelMatrix().Inverted();
@@ -132,7 +133,7 @@ bool Grid::CleanUp()
 
 	return true;
 }
-/**
+
 void Grid::LoadShaderProgram()
 {
 	GLint success = 0;
@@ -149,8 +150,8 @@ void Grid::LoadShaderProgram()
 	if (success == GL_FALSE)	LOG("[GL] Vertex Shader failed to compile.")
 	else LOG("[GL] Vertex Shader successfully compiled")
 
-	// ==== COMPILE FRAGMENT SHADER ====
-	char* fShaderData = LoadShaderData("default.fs");
+		// ==== COMPILE FRAGMENT SHADER ====
+		char* fShaderData = LoadShaderData("default.fs");
 	assert(fShaderData != nullptr);
 	fShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fShader, 1, &fShaderData, NULL);
@@ -158,12 +159,12 @@ void Grid::LoadShaderProgram()
 	glGetShaderiv(vShader, GL_COMPILE_STATUS, &success);
 	if (success == GL_FALSE) LOG("[GL] Fragment Shader failed to compile.")
 	else LOG("[GL] Fragment Shader successfully compiled")
-	
-	// ==== LINK PROGRAM ====
-	program = glCreateProgram();
+
+		// ==== LINK PROGRAM ====
+		program = glCreateProgram();
 	glAttachShader(program, vShader);
 	glAttachShader(program, fShader);
-	
+
 	while (glGetError() != GL_NO_ERROR);
 	glLinkProgram(program);
 	GLenum error = glGetError();
@@ -198,7 +199,7 @@ void Grid::LoadShaderProgram()
 	if (vShader != 0)	glDeleteShader(vShader);
 	if (fShader != 0)	glDeleteShader(fShader);
 }
-*//*
+
 char* Grid::LoadShaderData(const char* filename)
 {
 	char* data = nullptr;
@@ -220,7 +221,7 @@ char* Grid::LoadShaderData(const char* filename)
 	return data;
 }
 
-*/
+
 math::float4x4 Grid::LookAt(const Object &target, const Object &eye)
 {
 	math::float3 up(

@@ -1,3 +1,5 @@
+#pragma once
+
 #include<list>
 #include "Globals.h"
 #include "Module.h"
@@ -6,7 +8,8 @@ class ModuleRender;
 class ModuleWindow;
 class ModuleTextures;
 class ModuleInput;
-class Grid;
+class ModuleGrid;
+class ModuleEditor;
 
 class Application
 {
@@ -24,7 +27,8 @@ public:
 	ModuleWindow* window = nullptr;
 	ModuleTextures* textures = nullptr;
 	ModuleInput* input = nullptr;
-	Grid* grid = nullptr;
+    ModuleGrid* exercise = nullptr;
+	ModuleEditor* editor = nullptr;
 
 private:
 

@@ -63,7 +63,7 @@ int main(int argc, char ** argv)
 			if (update_return == UPDATE_STOP)
 				state = MAIN_FINISH;
 		}
-		break;
+			break;
 
 		case MAIN_FINISH:
 
@@ -95,7 +95,7 @@ int main(int argc, char ** argv)
 			case SDL_WINDOWEVENT:
 				if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
 					App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
-				break;
+					break;
 			}
 		}
 	}

@@ -2,17 +2,24 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "SDL/include/SDL.h"
+#include "ModuleWindow.h"
+
+#include "imgui.h"
+#include "examples/imgui_impl_sdl.h"
 
 #define MAX_KEYS 300
 
 ModuleInput::ModuleInput()
 {
 	keyboard = new KeyState[MAX_KEYS];
+	memset(keyboard, KEY_IDLE, sizeof(KeyState) * MAX_KEYS);
 }
 
 // Destructor
 ModuleInput::~ModuleInput()
-{ }
+{
+	delete[](keyboard);
+}
 
 // Called before render is available
 bool ModuleInput::Init()
@@ -21,7 +28,7 @@ bool ModuleInput::Init()
 	bool ret = true;
 	SDL_Init(0);
 
-	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
+	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
 		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
@@ -31,14 +38,14 @@ bool ModuleInput::Init()
 }
 
 // Called every draw update
-update_status ModuleInput::Update()
+update_status ModuleInput::PreUpdate()
 {
 	SDL_PumpEvents();
-	SDL_Event event;
-	const Uint8* keys = SDL_GetKeyboardState(NULL);
-	//keyboard = SDL_GetKeyboardState(NULL);
 
-	// Interacting with keyboard
+	SDL_Event event;
+	bool done = false;
+
+	const Uint8* keys = SDL_GetKeyboardState(NULL);
 	for (int i = 0; i < MAX_KEYS; ++i)
 	{
 		if (keys[i] == 1)
@@ -57,32 +64,21 @@ update_status ModuleInput::Update()
 		}
 	}
 
-	bool quit = false;
-
-	while (SDL_PollEvent(&event))
+	while (done)
 	{
-		switch (event.type)
+		while (SDL_PollEvent(&event))
 		{
-		case SDL_QUIT:
-			quit = true;
-			break;
+			ImGui_ImplSDL2_ProcessEvent(&event);
 
-		case SDL_WINDOWEVENT:
-		{
-			if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-			{
-				//App->window->OnResize(event.window.data1, event.window.data2);
-				//App->renderer3D->OnResize(event.window.data1, event.window.data2);
-			}
-			break;
+			if (event.type == SDL_QUIT)
+				done = true;
+
+			if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(App->window->window))
+				done = true;
 		}
-		}
-
-		if (quit == true || keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
-			return UPDATE_STOP;
-
-		return UPDATE_CONTINUE;
 	}
+
+	return UPDATE_CONTINUE;
 }
 
 // Called before quitting

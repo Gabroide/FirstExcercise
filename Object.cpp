@@ -1,7 +1,7 @@
 #include "Object.h"
 
 #include "MathGeoLib.h"
-//#include "Behaviour.h"
+#include "Behaviour.h"
 
 #define DEG2RAD 0.0174532925f
 
@@ -19,35 +19,35 @@ Object::~Object()
 
 void Object::Start()
 {
-	/*for (std::list<Behaviour*>::iterator it = behaviours.begin(); it != behaviours.end(); ++it)
-		(*it)->Start();*/
+	for (std::list<Behaviour*>::iterator it = behaviours.begin(); it != behaviours.end(); ++it)
+		(*it)->Start();
 }
 
 void Object::Update()
 {
-	/*for (std::list<Behaviour*>::iterator it = behaviours.begin(); it != behaviours.end(); ++it)
+	for (std::list<Behaviour*>::iterator it = behaviours.begin(); it != behaviours.end(); ++it)
 		(*it)->Update();
-		*/
+
 }
 
 void Object::CleanUp()
 {
-	/*for (std::list<Behaviour*>::iterator it = behaviours.begin(); it != behaviours.end(); ++it)
-		(*it)->CleanUp();*/
+	for (std::list<Behaviour*>::iterator it = behaviours.begin(); it != behaviours.end(); ++it)
+		(*it)->CleanUp();
 }
 
-void Object::AddVertex(float x, float y, float z, float uv0, float uv1)
+void Object::AddVertex(float x, float y, float z, float uv0, float uv1) 
 {
 	std::vector<float> v = { x, y, z, uv0, uv1 };
 	vertices.push_back(v);
 }
 
-std::vector<float>* Object::GetVertices()
+std::vector<float>* Object::GetVertices() 
 {
 	std::vector<float>* output = new std::vector<float>;
 
 	for (std::list<std::vector<float>>::iterator it = vertices.begin(); it != vertices.end(); ++it)
-	{
+	{		
 		output->insert(output->end(), it->begin(), it->end());
 	}
 
@@ -71,9 +71,9 @@ math::float4x4 Object::RotationMatrix()
 }
 
 math::float4x4 Object::ModelMatrix()
-{
+{	
 	math::float4x4 rot = RotationMatrix();
-	math::float4x4 scaleM = math::float4x4::identity;
+	math::float4x4 scaleM = math::float4x4::identity; 
 	math::float4x4 translate = math::float4x4::identity;
 
 	scaleM[0][0] = scale.x;				scaleM[1][1] = scale.y;				scaleM[2][2] = scale.z;

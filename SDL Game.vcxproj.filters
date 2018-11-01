@@ -226,6 +226,12 @@
     <ClInclude Include="Object.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Behaviour.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraMove.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -349,6 +355,9 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraMove.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
