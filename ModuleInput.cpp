@@ -17,7 +17,7 @@ bool ModuleInput::Init()
 	bool ret = true;
 	SDL_Init(0);
 
-	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
+	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
 		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
@@ -32,10 +32,6 @@ update_status ModuleInput::Update()
 	SDL_PumpEvents();
 
 	keyboard = SDL_GetKeyboardState(NULL);
-
-	// TODO 1: Make the application properly close when ESC is pressed (do not use exit())
-
-	// Homework: Make the application close up when pressing “X” button of the window
 
 	return UPDATE_CONTINUE;
 }

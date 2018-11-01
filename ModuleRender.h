@@ -13,11 +13,12 @@ public:
 	~ModuleRender();
 
 	bool Init();
+	update_status PreUpdate();
 	update_status Update();
+	update_status PostUpdate();
 	bool CleanUp();
+	void WindowResized(unsigned width, unsigned height);
 
-	bool Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section);
-
-public:
-	SDL_Renderer* renderer = NULL;
+private:
+	void* context;
 };

@@ -7,7 +7,7 @@ typedef unsigned __int8 Uint8;
 class ModuleInput : public Module
 {
 public:
-	
+
 	ModuleInput();
 	~ModuleInput();
 

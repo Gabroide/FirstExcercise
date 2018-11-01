@@ -14,15 +14,15 @@ Application::Application()
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(textures = new ModuleTextures());
 	modules.push_back(input = new ModuleInput());
-
-	// TODO 7: Create a new "scene" module that loads a texture and draws it on the screen
-
-	// Homework: Create a new module to handle music and sound effects
 }
 
 Application::~Application()
 {
 	// TODO 6: Free module memory and check the result in Dr. Memory
+	for (list<Module*>::iterator it = modules.begin(); it != modules.end(); ++it)
+	{
+		delete *it;
+	}
 }
 
 bool Application::Init()
@@ -51,7 +51,7 @@ bool Application::CleanUp()
 {
 	bool ret = true;
 
-	for(list<Module*>::reverse_iterator it = modules.rbegin(); it != modules.rend() && ret; ++it)
+	for (list<Module*>::reverse_iterator it = modules.rbegin(); it != modules.rend() && ret; ++it)
 		ret = (*it)->CleanUp();
 
 	return ret;
