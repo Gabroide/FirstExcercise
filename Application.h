@@ -1,5 +1,3 @@
-#pragma once
-
 #include<list>
 #include "Globals.h"
 #include "Module.h"

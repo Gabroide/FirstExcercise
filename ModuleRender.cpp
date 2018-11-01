@@ -2,8 +2,8 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
-//#include "SDL.h"
-//#include "GL/glew.h"
+#include "SDL.h"
+#include "GL/glew.h"
 
 ModuleRender::ModuleRender()
 {
@@ -28,7 +28,7 @@ bool ModuleRender::Init()
 
 	context = SDL_GL_CreateContext(App->window->window);
 
-	/*glewInit();
+	glewInit();
 
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -39,17 +39,17 @@ bool ModuleRender::Init()
 
 	glClearDepth(1.0f);
 	glClearColor(0.3f, 0.3f, 0.3f, 1.f);
-	*/
+
 	int width, height;
 	SDL_GetWindowSize(App->window->window, &width, &height);
-	//glViewport(0, 0, width, height);
+	glViewport(0, 0, width, height);
 
 	return true;
 }
 
 update_status ModuleRender::PreUpdate()
 {
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	return UPDATE_CONTINUE;
 }
@@ -80,6 +80,6 @@ bool ModuleRender::CleanUp()
 
 void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
-	//glViewport(0, 0, width, height);
+	glViewport(0, 0, width, height);
 }
 
