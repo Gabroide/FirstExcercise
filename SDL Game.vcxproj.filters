@@ -14,6 +14,9 @@
     <Filter Include="_MathGeoLib">
       <UniqueIdentifier>{eb147b3a-0d2e-49ec-bb52-803066231f04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{56647e2f-dadc-4af9-8aec-9483267792ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModuleInput.h">
@@ -217,6 +220,12 @@
     <ClInclude Include="MathGeoLib\include\Math\MathLog.h">
       <Filter>_MathGeoLib</Filter>
     </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -335,6 +344,12 @@
     </ClCompile>
     <ClCompile Include="MathGeoLib\include\Math\MathLog.cpp">
       <Filter>_MathGeoLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

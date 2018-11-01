@@ -6,7 +6,7 @@ class ModuleRender;
 class ModuleWindow;
 class ModuleTextures;
 class ModuleInput;
-class ModuleRenderExercise;
+class Grid;
 
 class Application
 {
@@ -24,7 +24,7 @@ public:
 	ModuleWindow* window = nullptr;
 	ModuleTextures* textures = nullptr;
 	ModuleInput* input = nullptr;
-	ModuleRenderExercise* exercise = nullptr;
+	Grid* grid = nullptr;
 
 private:
 
