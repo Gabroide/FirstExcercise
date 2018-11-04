@@ -14,8 +14,10 @@ enum update_status
 };
 
 // Configuration -----------
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 1024 //640
+#define SCREEN_HEIGHT 640 //480
+#define SCREEN_SIZE 1
 #define FULLSCREEN false
+#define RESIZABLE true
 #define VSYNC true
-#define TITLE "Super Awesome Engine"
+#define TITLE "My first Engine"
