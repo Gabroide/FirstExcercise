@@ -10,6 +10,9 @@ class ModuleTextures;
 class ModuleInput;
 class ModuleGrid;
 class ModuleEditor;
+//class ModuleCamera; COMMENT
+//class ModuleModelLoader; COMMENT	
+//class ModuleProgram; COMMENT
 
 class Application
 {
@@ -27,8 +30,11 @@ public:
 	ModuleWindow* window = nullptr;
 	ModuleTextures* textures = nullptr;
 	ModuleInput* input = nullptr;
-    ModuleGrid* exercise = nullptr;
+    ModuleGrid* grid = nullptr;
+	//ModuleCamera* camera = nullptr; COMMENT
 	ModuleEditor* editor = nullptr;
+	//ModuleProgram* program = nullptr; COMMENT
+	//ModuleModelLoader* modelLoader = nullptr; COMMENT
 
 private:
 

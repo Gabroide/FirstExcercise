@@ -1,23 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="ModuleInput.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleRender.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleTextures.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModuleWindow.cpp">
       <Filter>Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Application.cpp">
-      <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="log.cpp">
       <Filter>Utils</Filter>
@@ -148,6 +136,18 @@
     <ClCompile Include="ModuleGrid.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Main\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Main\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleInput.cpp">
+      <Filter>Modules\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleRender.cpp">
+      <Filter>Modules\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModuleWindow.h">
@@ -159,17 +159,8 @@
     <ClInclude Include="ModuleInput.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleRender.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleTextures.h">
       <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Application.h">
-      <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="MathGeoLib\include\Geometry\AABB.h">
       <Filter>_MathGeoLib</Filter>
@@ -381,6 +372,15 @@
     <ClInclude Include="ModuleGrid.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Main\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Main\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleRender.h">
+      <Filter>Modules\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Modules">
@@ -400,6 +400,18 @@
     </Filter>
     <Filter Include="Objects">
       <UniqueIdentifier>{3efc07e0-c451-4d68-9871-37f5712082d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Headers">
+      <UniqueIdentifier>{037bc4dc-4eb8-4226-8365-9c1e62e439a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Source">
+      <UniqueIdentifier>{3c022e40-680d-4333-9e69-902ff381c8b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Headers">
+      <UniqueIdentifier>{62d796d5-29dd-49ff-b32f-cf66b83e8711}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Source">
+      <UniqueIdentifier>{e859a8a6-dcd0-4a12-b131-a13203fcc65d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

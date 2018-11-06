@@ -34,22 +34,7 @@ bool ModuleInput::Init()
 		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
-	/*
-	if (SDL_INIT_VIDEO | SDL_INIT_JOYSTICK < 0)
-	{
-		LOG("SDL cannot be initialized. SDL: %s\n", SDL_GetError());
-		exit(1);
-	}
-
-	if(SDL_NumJoysticks() < 1) 
-	{ 
-		LOG("Warning: No joysticks connected!\n"); 
-	}
-	else 
-	{ 
-		controller = SDL_GameControllerOpen(0); 
-	}
-	*/
+	
 	return ret;
 }
 
@@ -63,26 +48,7 @@ update_status ModuleInput::PreUpdate()
 	bool done = false;
 	SDL_Event event;
 
-	// Game Pad
-	/*pad_buttons[0] = SDL_GameControllerGetButton(this->controller, SDL_CONTROLLER_BUTTON_DPAD_UP);
-	pad_buttons[1] = SDL_GameControllerGetButton(this->controller, SDL_CONTROLLER_BUTTON_DPAD_DOWN);
-	pad_buttons[2] = SDL_GameControllerGetButton(this->controller, SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
-	pad_buttons[3] = SDL_GameControllerGetButton(this->controller, SDL_CONTROLLER_BUTTON_DPAD_LEFT);
 	
-	for (int i = 0; i < MAX_BUTTONS; ++i)
-	{
-		if (pad_buttons[i] == 1)
-		{
-			if (player_controll[i] == KEY_IDLE) { player_controll[i] = KEY_DOWN; }
-			else { player_controll[i] = KEY_REPEAT; }
-		}
-		else
-		{
-			if (player_controll[i] == KEY_REPEAT || player_controll[i] == KEY_DOWN) { player_controll[i] = KEY_UP; }
-			else { player_controll[i] = KEY_IDLE; }
-		}
-	}
-	*/
 	// Keyboard
 	for (int i = 0; i < MAX_KEYS; ++i)
 	{
@@ -102,31 +68,7 @@ update_status ModuleInput::PreUpdate()
 		}
 	}
 
-	// Mouse
-	/*mouse_x /= SCREEN_SIZE;
-	mouse_y /= SCREEN_SIZE;
-	mouse_z = 0;
-
-	for (int i = 0; i < 5; ++i)
-	{
-		if (buttons & SDL_BUTTON(i))
-		{
-			if (mouse_buttons[i] == KEY_IDLE)
-				mouse_buttons[i] = KEY_DOWN;
-			else
-				mouse_buttons[i] = KEY_REPEAT;
-		}
-		else
-		{
-			if (mouse_buttons[i] == KEY_REPEAT || mouse_buttons[i] == KEY_DOWN)
-				mouse_buttons[i] = KEY_UP;
-			else
-				mouse_buttons[i] = KEY_IDLE;
-		}
-	}
-
-	mouse_x_motion = mouse_y_motion = 0;
-	*/
+	
 	while (SDL_PollEvent(&event))
 	{
 		// App->gui->handleInput(&event); COMMENT

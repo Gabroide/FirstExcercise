@@ -2,6 +2,8 @@
 #include "Module.h"
 #include "Globals.h"
 
+#include "MathGeoLib.h"
+
 struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
@@ -19,6 +21,9 @@ public:
 	bool CleanUp();
 	void WindowResized(unsigned width, unsigned height);
 
-private:
+	math::float4x4 model; // COMMENT
+
 	void* context;
+private:
+	
 };

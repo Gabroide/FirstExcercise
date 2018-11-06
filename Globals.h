@@ -21,3 +21,4 @@ enum update_status
 #define RESIZABLE true
 #define VSYNC true
 #define TITLE "My first Engine"
+#define FRAME_VALUES 10 // COMMENT TO BE CHANGED
