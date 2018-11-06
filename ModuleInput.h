@@ -2,9 +2,13 @@
 #include "Module.h"
 #include "Globals.h"
 
+#include "Point.h"
+
 #include "SDL.h"
 #include "SDL_scancode.h"
 #include "SDL_gamecontroller.h"
+
+typedef unsigned __int8 Uint8;
 
 #define MAX_MOUSE_BUTTONS 5
 #define MAX_BUTTONS 20
@@ -35,16 +39,24 @@ public:
 	~ModuleInput();
 
 	bool Init();
-	update_status PreUpdate();
 	bool CleanUp();
+	update_status PreUpdate();
+	update_status Update;
 	
 	KeyState GetKey(int id) const
 	{
 		return keyboard[id];
 	}
 
-	KeyState GetMouseButton(int id) const;
+	KeyState GetMouseButton(int id) const
+	{
+		return mouse_buttons[id - 1];
+	}
 
+	const iPoint& GetMouseMotion() const;
+	const iPoint& GetMousePosition() const;
+
+	/*  COMMENT
 	KeyState GetController(int id) const
 	{
 		return player_controll[id];
@@ -65,19 +77,19 @@ public:
 		return mouse_z;
 	}
 
-	int GetMouseXMotion() const
-	{
-		return mouse_x_motion;
-	}
-
 	int GetMouseYMotion() const
 	{
 		return mouse_y_motion;
 	}
-
+	*/
 public:
 	KeyState* keyboard = nullptr;
 	KeyState mouse_buttons[MAX_MOUSE_BUTTONS];
+
+	iPoint mouse_motion;
+	iPoint mouse;
+
+	/* COMMENT
 	KeyState player_controll[MAX_BUTTONS];
 
 	SDL_GameController *controller = nullptr;
@@ -92,7 +104,7 @@ public:
 	bool move_left = false;
 	bool move_right = false;
 	bool stop = false;
-
+	*/
 private:
 	//KeyState * keyboard;
 	//const Uint8* keyboard = NULL;

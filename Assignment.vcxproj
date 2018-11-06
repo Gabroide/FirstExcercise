@@ -80,6 +80,7 @@
     <ClInclude Include="Behaviour.h" />
     <ClInclude Include="CameraMove.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="imgui-docking\examples\imgui_impl_opengl3.h" />
     <ClInclude Include="imgui-docking\examples\imgui_impl_sdl.h" />
