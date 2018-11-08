@@ -13,7 +13,6 @@ ModuleInput::ModuleInput()
 {
 	keyboard = new KeyState[MAX_KEYS];
 	memset(keyboard, KEY_IDLE, sizeof(KeyState) * MAX_KEYS);
-	memset(mouse_buttons, KEY_IDLE, sizeof(KeyState) * MAX_MOUSE_BUTTONS);
 }
 
 // Destructor
@@ -43,16 +42,13 @@ bool ModuleInput::Init()
 update_status ModuleInput::PreUpdate()
 {
 	SDL_PumpEvents();
-
-	mouse_motion = { 0, 0 };
-
-	//Uint8 pad_buttons[MAX_BUTTONS]; COMMENT
+	Uint8 pad_buttons[MAX_BUTTONS];
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
-
+	Uint32 buttons = SDL_GetMouseState(&mouse_x, &mouse_y);
 	bool done = false;
 	SDL_Event event;
 
-
+	
 	// Keyboard
 	for (int i = 0; i < MAX_KEYS; ++i)
 	{
@@ -66,53 +62,38 @@ update_status ModuleInput::PreUpdate()
 		else
 		{
 			if (keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
-			{
 				keyboard[i] = KEY_UP;
-			}
 			else
 				keyboard[i] = KEY_IDLE;
 		}
 	}
 
-	// Mouse
-	for (int i = 0; i < MAX_MOUSE_BUTTONS; ++i)
-	{
-		if (mouse_buttons[i] == KEY_DOWN)
-			mouse_buttons[i] = KEY_REPEAT;
-
-		if (mouse_buttons[i] == KEY_UP)
-			mouse_buttons[i] = KEY_IDLE;
-	}
-
+	
 	while (SDL_PollEvent(&event))
 	{
-		ImGui_ImplSDL2_ProcessEvent(&event);
-
+		// App->gui->handleInput(&event); COMMENT
 		switch (event.type)
 		{
-		case SDL_MOUSEBUTTONDOWN:
-			mouse_buttons[event.button.button - 1] = KEY_DOWN;
-			break;
-
-		case SDL_MOUSEBUTTONUP:
-			mouse_buttons[event.button.button - 1] = KEY_UP;
-			break;
-
-		case SDL_MOUSEMOTION:
-			mouse_motion.x = event.motion.xrel / SCREEN_SIZE;
-			mouse_motion.y = event.motion.yrel / SCREEN_SIZE;
-
-			mouse.x = event.motion.x / SCREEN_SIZE;
-			mouse.y = event.motion.y / SCREEN_SIZE;
+		case SDL_CONTROLLERBUTTONDOWN:
+			move_up = true;
 			break;
 
 		case SDL_MOUSEWHEEL:
-			//if (!App->gui->isMouseOnGUI()) COMMENT
+			//if (!App->gui->isMouseOnGUI())
 				//mouse_z = event.wheel.y;
+			break;
+
+		case SDL_MOUSEMOTION:
+			mouse_x = event.motion.x / SCREEN_SIZE;
+			mouse_y = event.motion.y / SCREEN_SIZE;
+
+			mouse_x_motion = event.motion.xrel / SCREEN_SIZE;
+			mouse_y_motion = event.motion.yrel / SCREEN_SIZE;
 			break;
 
 		case SDL_QUIT:
 			done = true;
+			//return UpdateState::Update_End;
 			break;
 
 		case SDL_WINDOWEVENT:
@@ -128,19 +109,18 @@ update_status ModuleInput::PreUpdate()
 			break;
 		}
 
-		case SDL_DROPFILE:
+		case (SDL_DROPFILE):
 			//App->fileSystem->manageDroppedFiles(event.drop.file);
 			break;
-
 		}
-
-		if (done || keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
-		{
-			return UPDATE_STOP;
-		}
-
-		return UPDATE_CONTINUE;
 	}
+
+	if (done || keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
+	{
+		return UPDATE_STOP;
+	}
+
+	return UPDATE_CONTINUE;
 }
 
 // Called before quitting
@@ -149,15 +129,4 @@ bool ModuleInput::CleanUp()
 	LOG("Quitting SDL input event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
-}
-
-
-const iPoint& ModuleInput::GetMousePosition() const
-{
-	return mouse;
-}
-
-const iPoint& ModuleInput::GetMouseMotion() const
-{
-	return mouse_motion;
 }

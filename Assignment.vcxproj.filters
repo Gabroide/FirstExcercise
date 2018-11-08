@@ -381,9 +381,6 @@
     <ClInclude Include="ModuleRender.h">
       <Filter>Modules\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Point.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Modules">
