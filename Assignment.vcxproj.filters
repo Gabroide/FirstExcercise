@@ -148,6 +148,9 @@
     <ClCompile Include="ModuleCamera.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleLoader.cpp">
+      <Filter>Modules\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModuleWindow.h">
@@ -380,6 +383,9 @@
     </ClInclude>
     <ClInclude Include="ModuleCamera.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleLoader.h">
+      <Filter>Modules\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

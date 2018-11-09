@@ -1,11 +1,14 @@
 #pragma once
 #include "Application.h"
+
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
 #include "ModuleTextures.h"
 #include "ModuleInput.h"
 #include "ModuleGrid.h"
 #include "ModuleEditor.h"
+#include "ModueLoader.h"
+#include "ModuleCamera.h"
 
 using namespace std;
 
@@ -16,9 +19,10 @@ Application::Application()
 	modules.push_back(renderer = new ModuleRender());
 	modules.push_back(textures = new ModuleTextures());
 	modules.push_back(input = new ModuleInput());
+	modules.push_back(camera = new ModuleCamera());
 	modules.push_back(editor = new ModuleEditor());
 	modules.push_back(grid = new ModuleGrid());
-	//modules.push_back(modelLoader = new ModuleModelLoader()); COMMENT
+	modules.push_back(modelLoader = new ModuleLoader());
 	//modules.push_back(shaderProgram = new ModuleProgram()); COMMENT
 }
 

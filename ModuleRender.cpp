@@ -3,7 +3,7 @@
 #include "Application.h"
 #include "Globals.h"
 #include "ModuleWindow.h"
-#include"CameraMove.h"
+#include"ModuleCamera.h"
 
 #include <SDL.h>
 #include <GL/glew.h>
