@@ -127,9 +127,6 @@
     <ClCompile Include="imgui-docking\examples\imgui_impl_sdl.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
-    <ClCompile Include="CameraMove.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -148,15 +145,15 @@
     <ClCompile Include="ModuleRender.cpp">
       <Filter>Modules\Source</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleCamera.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModuleWindow.h">
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Module.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="ModuleInput.h">
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="ModuleTextures.h">
@@ -363,9 +360,6 @@
     <ClInclude Include="Behaviour.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="CameraMove.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>Objects</Filter>
     </ClInclude>
@@ -380,6 +374,12 @@
     </ClInclude>
     <ClInclude Include="ModuleRender.h">
       <Filter>Modules\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleInput.h">
+      <Filter>Modules\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleCamera.h">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

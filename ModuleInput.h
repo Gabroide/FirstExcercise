@@ -25,7 +25,11 @@ enum KeyState
 	KEY_UP
 };
 
-typedef unsigned __int8 Uint8;
+struct Punt {
+	int x, y;
+};
+
+//typedef unsigned __int8 Uint8; COMMENT
 
 class ModuleInput : public Module
 {
@@ -35,10 +39,14 @@ public:
 	~ModuleInput();
 
 	bool Init();
-	update_status PreUpdate();
-	bool CleanUp();
+
+	update_status PreUpdate() override;
+	bool CleanUp() override;
 	
-	KeyState GetKey(int id) const
+
+
+	/*COMMENT TO ERASE?*/
+	/*KeyState GetKey(int id) const
 	{
 		return keyboard[id];
 	}
@@ -74,19 +82,30 @@ public:
 	{
 		return mouse_y_motion;
 	}
-
+	*/
 public:
-	KeyState* keyboard = nullptr;
-	KeyState mouse_buttons[MAX_MOUSE_BUTTONS];
-	KeyState player_controll[MAX_BUTTONS];
+	const Uint8* keyboard = NULL;
+	Uint8* mouse_buttons = NULL;
 
-	SDL_GameController *controller = nullptr;
+	Punt mouse_position;
+	Punt mouse;
 
-	int mouse_x;
-	int mouse_y;
-	int mouse_z;
-	int mouse_x_motion;
-	int mouse_y_motion;
+	char* dropped_filedir;
+
+	/* COMMENT TO ERASE??*/
+	//KeyState* keyboard = nullptr;
+	//KeyState mouse_buttons[MAX_MOUSE_BUTTONS];
+	//KeyState player_controll[MAX_BUTTONS];
+
+	//SDL_GameController *controller = nullptr;
+
+	int mouseWheel = 0;
+	int mouse_x = 0;
+	int mouse_y = 0;
+	int mouse_z = 0;
+
+	int mouse_x_motion = 0;
+	int mouse_y_motion = 0;
 
 	bool move_up = false;
 	bool move_left = false;

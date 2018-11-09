@@ -10,7 +10,7 @@
 #include "GL/glew.h"
 #include "SDL.h"
 #include "MathGeoLib/include/Geometry/Frustum.h"
-#include "CameraMove.h"
+#include "ModuleCamera.h"
 
 #define EULER_NUM 2.71881f
 //#define ASPECT 1.5555556f
@@ -42,7 +42,7 @@ bool ModuleGrid::Init()
 	camera->position = { 0.0f, 1.0f, 10.0f };
 	camera->scale = { 1.0f, 1.0f, 1.0f };
 	camera->rotation = { 0.0f, 0.0f, 0.0f };
-	camera->behaviours.push_back(new CameraMove(camera));
+	//camera->behaviours.push_back(new ModuleCamera(camera));
 
 	// Load GL Program
 	LoadShaderProgram();
