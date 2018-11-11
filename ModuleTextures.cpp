@@ -1,12 +1,15 @@
+#include "ModuleTextures.h"
+
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleRender.h"
-#include "ModuleTextures.h"
 #include "GL/glew.h"
-#include "IL/il.h"
-#include "IL/ilut.h"
 
-using namespace std;
+#include "DevIL/include/IL/il.h"
+#include "DevIL/include/IL/ilu.h"
+#include "DevIL/include/IL/ilut.h"
+
+#include "SDL/include/SDL.h"
 
 ModuleTextures::ModuleTextures()
 {
@@ -21,9 +24,11 @@ ModuleTextures::~ModuleTextures()
 // Called before render is available
 bool ModuleTextures::Init()
 {
+	//ilutRenderer(ILUT_OPENGL);
 	ilInit();
 	iluInit();
 	ilutInit();
+	//ilutRenderer(ILUT_OPENGL);
 
 	return true;
 }
@@ -31,37 +36,42 @@ bool ModuleTextures::Init()
 // Called before quitting
 bool ModuleTextures::CleanUp()
 {
-
 	return true;
 }
 
 // Load new texture from file path
-unsigned int ModuleTextures::Load(const char* path)
+GLuint ModuleTextures::Load(const char* path)
 {
-	ILuint imageID;
-	GLuint textureID;
-	ILboolean success;
-//	ILenum error;
+	GLuint texture;
 
-	ilGenImages(1, &imageID);
-	ilBindImage(imageID);
-	success = ilLoadImage("Lenna.png");
+	ILuint image;
+
+	ilGenImages(1, &image);
+
+	ilBindImage(image);
+
+	bool success = ilLoadImage(path);
 
 	if (success)
 	{
-		success = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
-		if (!success) 
+		iluGetImageInfo(&lastImageInfo);
+		if (lastImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
 		{
-			LOG("Image Loading Error: %s", ilGetError());
-			__debugbreak();
+			iluFlipImage();
 		}
 
-		glGenTextures(1, &textureID);
-		glBindTexture(GL_TEXTURE_2D, textureID);
+		glGenTextures(1, &texture);
+
+		glBindTexture(GL_TEXTURE_2D, texture);
+
+		// Set texture clamping method
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+		// Set texture interpolation method to use linear interpolation (no MIPMAPS)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
 
 		glTexImage2D(GL_TEXTURE_2D, 				// Type of texture
 			0,				// Pyramid level (for mip-mapping) - 0 is the top level
@@ -72,9 +82,19 @@ unsigned int ModuleTextures::Load(const char* path)
 			ilGetInteger(IL_IMAGE_FORMAT),	// Format of image pixel data
 			GL_UNSIGNED_BYTE,		// Image data type
 			ilGetData());			// The actual image data itself
+
 	}
 
-	ilDeleteImages(1, &imageID);
+	ilDeleteImage(image);
 
-	return textureID;
+	return texture;
 }
+
+void ModuleTextures::Unload(unsigned id)
+{
+	if (id != 0)
+	{
+		glDeleteTextures(1, &id);
+	}
+}
+

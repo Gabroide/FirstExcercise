@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="ModuleTextures.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleWindow.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -106,9 +103,6 @@
     <ClCompile Include="MathGeoLib\include\Geometry\TriangleMesh.cpp">
       <Filter>_MathGeoLib</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleEditor.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
     <ClCompile Include="imgui-docking\imgui.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
@@ -127,12 +121,6 @@
     <ClCompile Include="imgui-docking\examples\imgui_impl_sdl.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleGrid.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
     <ClCompile Include="Application.cpp">
       <Filter>Main\Source</Filter>
     </ClCompile>
@@ -145,23 +133,17 @@
     <ClCompile Include="ModuleRender.cpp">
       <Filter>Modules\Source</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleCamera.cpp">
-      <Filter>Objects</Filter>
+    <ClCompile Include="ModuleCamera.cpp" />
+    <ClCompile Include="ModuleModelLoader.cpp" />
+    <ClCompile Include="ModuleProgram.cpp" />
+    <ClCompile Include="ModuleEditor.cpp">
+      <Filter>Modules\Source</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleLoader.cpp">
+    <ClCompile Include="ModuleTextures.cpp">
       <Filter>Modules\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ModuleWindow.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Module.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="ModuleTextures.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
     <ClInclude Include="MathGeoLib\include\Geometry\AABB.h">
       <Filter>_MathGeoLib</Filter>
     </ClInclude>
@@ -333,9 +315,6 @@
     <ClInclude Include="MathGeoLib\include\Geometry\TriangleMesh.h">
       <Filter>_MathGeoLib</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleEditor.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
     <ClInclude Include="imgui-docking\imgui.h">
       <Filter>Imgui</Filter>
     </ClInclude>
@@ -360,15 +339,6 @@
     <ClInclude Include="imgui-docking\imstb_truetype.h">
       <Filter>Imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Behaviour.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="ModuleGrid.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Application.h">
       <Filter>Main\Headers</Filter>
     </ClInclude>
@@ -378,14 +348,31 @@
     <ClInclude Include="ModuleRender.h">
       <Filter>Modules\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleCamera.h" />
+    <ClInclude Include="ModuleModelLoader.h" />
+    <ClInclude Include="Module.h">
+      <Filter>Modules\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleEditor.h">
+      <Filter>Modules\Headers</Filter>
+    </ClInclude>
     <ClInclude Include="ModuleInput.h">
       <Filter>Modules\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleCamera.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="ModuleLoader.h">
+    <ClInclude Include="ModuleTextures.h">
       <Filter>Modules\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleWindow.h">
+      <Filter>Modules\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleProgram.h">
+      <Filter>Modules\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleTimer.h">
+      <Filter>Modules\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -404,9 +391,6 @@
     <Filter Include="Imgui">
       <UniqueIdentifier>{bf55867a-cf1f-4e40-bccf-0c6e2ca6c148}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects">
-      <UniqueIdentifier>{3efc07e0-c451-4d68-9871-37f5712082d2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Main\Headers">
       <UniqueIdentifier>{037bc4dc-4eb8-4226-8365-9c1e62e439a8}</UniqueIdentifier>
     </Filter>
@@ -421,7 +405,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Game\default.fs" />
-    <None Include="Game\Default.vs" />
+    <None Include="Game\Default.vs">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="Game\default.fs">
+      <Filter>Utils</Filter>
+    </None>
   </ItemGroup>
 </Project>

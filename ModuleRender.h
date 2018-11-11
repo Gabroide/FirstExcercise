@@ -1,8 +1,10 @@
-#pragma once
+#ifndef __ModuleRender_h__
+#define __ModuleRender_h__
+
 #include "Module.h"
 #include "Globals.h"
 
-#include "MathGeoLib.h"
+#include "Math/float4x4.h"
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -14,11 +16,11 @@ public:
 	ModuleRender();
 	~ModuleRender();
 
-	bool Init();
-	update_status PreUpdate();
-	update_status Update();
-	update_status PostUpdate();
-	bool CleanUp();
+	bool Init() override;
+	update_status PreUpdate() override;
+	update_status Update() override;
+	update_status PostUpdate() override;
+	bool CleanUp() override;
 	void WindowResized(unsigned width, unsigned height);
 
 	math::float4x4 model; // COMMENT
@@ -27,3 +29,5 @@ public:
 private:
 	
 };
+
+#endif // #ifndef __ModuleRender_h__

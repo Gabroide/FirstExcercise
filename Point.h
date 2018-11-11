@@ -1,26 +1,21 @@
-#ifndef __POINT_H__
-#define __POINT_H__
+#ifndef __POINT_h__
+#define __POINT_h__
 
 template<class TYPE>
-
 class Point
 {
 public:
-
 	TYPE x, y;
 
 	Point()
-	{
-	}
-	
+	{}
 	Point(TYPE x, TYPE y) : x(x), y(y)
-	{
-	}
+	{}
 
-	// Operators ------------------------------------------------
+	// Operators
 	Point operator -(const Point &v) const
 	{
-		point2Vector2 r;
+		p2Vector2 r;
 
 		r.x = x - v.x;
 		r.y = y - v.y;
@@ -30,7 +25,7 @@ public:
 
 	Point operator + (const Point &v) const
 	{
-		point2Vector2 r;
+		p2Vector2 r;
 
 		r.x = x + v.x;
 		r.y = y + v.y;
@@ -64,7 +59,7 @@ public:
 		return (x != v.x || y != v.y);
 	}
 
-	// Utils ------------------------------------------------
+	// Utils
 	bool IsZero() const
 	{
 		return (x == 0 && y == 0);
@@ -76,7 +71,7 @@ public:
 		return(*this);
 	}
 
-	Point& Negative()
+	Point& Negate()
 	{
 		x = -x;
 		y = -y;
@@ -84,7 +79,7 @@ public:
 		return(*this);
 	}
 
-	// Distances ---------------------------------------------
+	// Distances
 	TYPE DistanceTo(const Point& v) const
 	{
 		TYPE fx = x - v.x;

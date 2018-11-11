@@ -1,7 +1,8 @@
-#ifndef __ModuleWindow_H__
-#define __ModuleWindow_H__
+#ifndef __ModuleWindow_h__
+#define __ModuleWindow_h__
 
 #include "Module.h"
+
 #include "SDL/include/SDL.h"
 
 class Application;
@@ -9,17 +10,16 @@ class Application;
 class ModuleWindow : public Module
 {
 public:
-
 	ModuleWindow();
 
 	// Destructor
 	virtual ~ModuleWindow();
 
 	// Called before quitting
-	bool Init();
+	bool Init() override;
 
 	// Called before quitting
-	bool CleanUp();
+	bool CleanUp() override;
 
 public:
 	//The window we'll be rendering to
@@ -29,4 +29,4 @@ public:
 	SDL_Surface* screen_surface = NULL;
 };
 
-#endif // __ModuleWindow_H__
+#endif // __ModuleWindow_h__

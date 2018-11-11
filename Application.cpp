@@ -5,10 +5,13 @@
 #include "ModuleRender.h"
 #include "ModuleTextures.h"
 #include "ModuleInput.h"
-#include "ModuleGrid.h"
-#include "ModuleEditor.h"
-#include "ModueLoader.h"
 #include "ModuleCamera.h"
+#include "ModuleEditor.h"
+#include "ModuleProgram.h"
+#include "ModuleModelLoader.h"
+//#include "ModuleGrid.h"
+#include "ModuleTimer.h"
+
 
 using namespace std;
 
@@ -20,10 +23,14 @@ Application::Application()
 	modules.push_back(textures = new ModuleTextures());
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(camera = new ModuleCamera());
+	modules.push_back(shaderProgram = new ModuleProgram());
+	modules.push_back(modelLoader = new ModuleModelLoader());
 	modules.push_back(editor = new ModuleEditor());
-	modules.push_back(grid = new ModuleGrid());
-	modules.push_back(modelLoader = new ModuleLoader());
-	//modules.push_back(shaderProgram = new ModuleProgram()); COMMENT
+	//modules.push_back(grid = new ModuleGrid());
+	modules.push_back(modelLoader = new ModuleModelLoader());
+	//modules.push_back(timer = new ModuleTimer());
+	
+	FPSInit();	
 }
 
 Application::~Application()
@@ -36,16 +43,23 @@ Application::~Application()
 
 bool Application::Init()
 {
+	//timer->StartPerformance();
+
 	bool ret = true;
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 		ret = (*it)->Init();
+
+	//Uint64 time = timer->StopPerformance();
+	//LOG("Time %d", time);
 
 	return ret;
 }
 
 update_status Application::Update()
 {
+	FPSCalculation();
+
 	update_status ret = UPDATE_CONTINUE;
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
@@ -68,4 +82,47 @@ bool Application::CleanUp()
 		ret = (*it)->CleanUp();
 
 	return ret;
+}
+
+void Application::FPSInit()
+{
+	memset(frametimes, 0, sizeof(frametimes));
+	framecount = 0;
+	fps = 0;
+	frametimelast = SDL_GetTicks();
+}
+
+void Application::FPSCalculation()
+{
+	Uint32 frametimesindex;
+	Uint32 getticks;
+	Uint32 count;
+	Uint32 i;
+
+	frametimesindex = framecount % FRAME_VALUES;
+
+	getticks = SDL_GetTicks();
+
+	frametimes[frametimesindex] = getticks - frametimelast;
+
+	frametimelast = getticks;
+	framecount++;
+
+	if (framecount < FRAME_VALUES)
+	{
+		count = framecount;
+	}
+	else
+	{
+		count = FRAME_VALUES;
+	}
+
+	fps = 0;
+	for (i = 0; i < count; i++)
+	{
+		fps += frametimes[i];
+	}
+
+	fps /= count;
+	fps = 1000.f / fps;
 }

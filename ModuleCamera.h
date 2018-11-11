@@ -1,78 +1,59 @@
-#ifndef _MODULE_CAMERA_H
-#define _MODULE_CAMERA_H
+#ifndef __ModuleCamera_h__
+#define __ModuleCamera_h__
 
 #include "Module.h"
-#include "ModuleInput.h"
+#include "MathGeoLib.h"
+#include "Point.h"
+#include "GL/glew.h"
 
-#include "Math/float3.h"
-#include "Math/float3x3.h"
-#include "Math/float4x4.h"
-#include "Geometry/Frustum.h"
+enum Directions {
+	UP,
+	DOWN,
+	FORWARD,
+	BACKWARD,
+	LEFT,
+	RIGHT
+};
 
-//#include "Behaviour.h"
-
-class ModuleCamera : 
-	public Module //Behaviour
+class ModuleCamera : public Module
 {
 public:
 	ModuleCamera();
 	~ModuleCamera();
 
-	//ModuleCamera(Object* object) : Behaviour(object) {}
-	//void Update();
+	bool            Init();
+	update_status   PreUpdate();
+	update_status   Update();
+	bool            CleanUp();
+	void SetAspectRatio(float aspect_ratio);
+	void SetFOV(float fov);
+	void SetPlaneDistances(float nearDist, float farDist);
+	math::float4x4 LookAt(math::float3& cameraPosition, math::float3& cameraFront, math::float3& cameraUp);
+	void Move(Directions dir);
+	void Rotate(Directions dir);
+	void MouseUpdate(const iPoint& mousePosition);
+	void Zoom(const iPoint& mousePosition);
 
-	bool Init() override;
-	bool CleanUp() override;
-
-	update_status Update() override;
-
-	void UpdateFrustum();
-
-	void LookAt(math::float3& target);
-	void FocusModel();
-
-public:
-	
-	float distCamVrp = 1.0f; // COMMENT
-	float movSpeed = 0.0f; // COMMENT
-	float speedMov = 1.0f; // COMMENT
-	//float speed2 = 0.0f; // COMMENT
-	float rotSpeed = 0.00015f; // COMMENT
-
-
-	bool rightButton = false;
-
-	Punt lastPos; //lastMouse; // COMMENT
-	Punt actualPos; //actualMouse; // COMMENT
-	Punt calcNewPos;
-
-	// Movement Vectors
-	math::float3 newPos = math::float3(0, 1, 1); ;
-	math::float3 up = math::float3(0, 1, 0);
-	math::float3 forward = math::float3(0, 0, -1);
-	math::float3 side;
-
-	// Axis Vectors
-	math::float3 axiX = math::float3(1, 0, 0);;
-	math::float3 axiY = math::float3(0, 1, 0);;
-	math::float3 axiZ = math::float3(0, 0, 1);;
-
-	// Matrix
 	Frustum frustum;
-	math::float4x4 view;
-	math::float4x4 projection;
+	math::float3& cameraPosition = math::float3(0.0f, 1.0f, 10.0f);
+	math::float3& cameraFront = math::float3(0.0f, 0.0f, -1.0f);
+	math::float3& cameraUp = math::float3(0.0f, 1.0f, 0.0f);
 
-private:
+	float mSpeed = 0.5f;
+	float rSpeed = 1.0f;
 
-	float aspect = 0.0f;
+	float pitch = 0;
+	float yaw = 0;
 
-	bool cameraChanged = false;
+	bool firstMouse = true;
+	int lastX = 0;
+	int lastY = 0;
 
+	float fov = 45.0f;
 
-	float3 dir; // = (0.0f, 0.0f, 0.0f); COMMENT
+	void RefenceGround();
+	void ReferenceAxis();
 
-	float3x3 rot;
 };
 
-#endif // !_CAMERA_MOVE_H
-
+#endif /* __ModuleCamera_h__ */

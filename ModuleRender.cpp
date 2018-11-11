@@ -8,7 +8,7 @@
 #include <SDL.h>
 #include <GL/glew.h>
 
-#include "MathGeoLib.h"
+//#include "MathGeoLib.h"
 //#include "ModueModelLoader" COMMENT
 //#include "ModuleProgram" COMMENT
 

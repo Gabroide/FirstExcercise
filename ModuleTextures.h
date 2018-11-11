@@ -1,7 +1,16 @@
-#pragma once
+#ifndef __ModuleTextures_h__
+#define __ModuleTextures_h__
+
 #include<list>
+
 #include "Module.h"
 #include "Globals.h"
+
+#include "GL/glew.h"
+
+#include "DevIL/include/IL/il.h"
+#include "DevIL/include/IL/ilu.h" COMMENT
+#include "DevIL/include/IL/ilut.h" COMMENT
 
 struct SDL_Texture;
 
@@ -11,11 +20,14 @@ public:
 	ModuleTextures();
 	~ModuleTextures();
 
-	bool Init();
-	bool CleanUp();
+	bool Init() override;
+	bool CleanUp() override;
 
-	unsigned int Load(const char* path);
+	GLuint Load(const char* path);
+	void Unload(unsigned id);
 
-private:
-	std::list<SDL_Texture*> textures;
+public:
+	ILinfo lastImageInfo;
 };
+
+#endif

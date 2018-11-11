@@ -1,6 +1,9 @@
-#pragma once
-#include <windows.h>
+#ifndef __Globals_h__
+#define __Globals_h__
+
 #include <stdio.h>
+
+#include <windows.h>
 
 #define LOG(format, ...) log(__FILE__, __LINE__, format, __VA_ARGS__);
 
@@ -14,11 +17,13 @@ enum update_status
 };
 
 // Configuration -----------
-#define SCREEN_WIDTH 1024 //640
-#define SCREEN_HEIGHT 640 //480
+#define SCREEN_WIDTH 1024
+#define SCREEN_HEIGHT 640
 #define SCREEN_SIZE 1
 #define FULLSCREEN false
 #define RESIZABLE true
 #define VSYNC true
 #define TITLE "My first Engine"
-#define FRAME_VALUES 10 // COMMENT TO BE CHANGED
+#define FRAME_VALUES 10
+
+#endif // __Globals_h__

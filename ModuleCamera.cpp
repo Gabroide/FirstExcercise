@@ -2,238 +2,245 @@
 
 #include "Application.h"
 #include "ModuleInput.h"
-#include "Object.h"
+#include "ModuleProgram.h"
+
+#include "GL/glew.h"
 
 #include "SDL.h"
+
 #include "MathGeoLib.h"
 
-bool  ModuleCamera::Init() 
-{ 
-	//cameraChanged = false;
-	//speed1 = 0.1;
-	//speed2 = speed1 * 3.5;
-	//movementSpeed = speed1;
-	//rotationSpeed = 0.0015;
+ModuleCamera::ModuleCamera()
+{
 
-	//camPos = math::float3(0, 1, 1); // COMMENT
-	//distCamVrp = 1.0f; // COMMENT
+}
 
-	// Desplacement Vetors
-	//forward = math::float3(0, 0, -1); // COMMENT
-	//up = math::float3(0, 1, 0);
+ModuleCamera::~ModuleCamera()
+{
+}
 
+bool ModuleCamera::Init()
+{
 	frustum.type = FrustumType::PerspectiveFrustum;
-	frustum.pos = newPos;
-	frustum.front = forward.Normalized();
-	frustum.up = up.Normalized();
+	frustum.pos = float3::zero;
+	frustum.front = -float3::unitZ;
+	frustum.up = float3::unitY;
 	frustum.nearPlaneDistance = 0.1f;
 	frustum.farPlaneDistance = 100.0f;
 	frustum.verticalFov = math::pi / 4.0f;
-	aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-	frustum.horizontalFov = 2.0f * atanf(tanf(frustum.verticalFov * 0.5f) *aspect);
-
-	side = (frustum.WorldRight()).Normalized();
-
-	//axiX = math::float3(1, 0, 0);
-	//axiY = math::float3(0, 1, 0);
-	//axiZ = math::float3(0, 0, 1);
-
-	view = frustum.ViewMatrix();
-	projection = frustum.ProjectionMatrix();
-
-	//pressingRightMouse = false;
-	lastPos = App->input->mouse_position;
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * (SCREEN_WIDTH / SCREEN_HEIGHT));
 
 	return true;
 }
 
-update_status ModuleCamera::Update()
+update_status ModuleCamera::PreUpdate()
 {
-	LOG("EDITOR CAMERA MOVE UPDATE");
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
+		{
+			cameraPosition += cameraUp.Normalized() * mSpeed;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)
+		{
+			cameraPosition -= cameraUp.Normalized() * mSpeed;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+		{
+			cameraPosition += cameraFront.Normalized() * mSpeed;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		{
+			cameraPosition -= cameraFront.Normalized() * mSpeed;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			cameraPosition += cameraUp.Cross(cameraFront).Normalized() * mSpeed;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			cameraPosition -= cameraUp.Cross(cameraFront).Normalized() * mSpeed;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_DOWN)
+		{
+			mSpeed = mSpeed * 2;
+			rSpeed = rSpeed * 2;
+		}
 	
-		/* COMMENT
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KeyState::KEY_REPEAT) 
+		MouseUpdate(App->input->GetMousePosition());
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 	{
-		object->position.y += 0.1f; // Moving UP
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KeyState::KEY_REPEAT)
-	{
-		object->position.y -= 0.1f; // Moving DOWN
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_Z) == KeyState::KEY_REPEAT)
-	{ // Zoom IN
-		math::float4x4 model = object->RotationMatrix();
-		object->position -= 0.1f*(model * math::float4(0.0f,0.0f,1.0f,1.0f)).Float3Part();
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_C) == KeyState::KEY_REPEAT)
-	{ // Zoom OUT
-		math::float4x4 model = object->RotationMatrix();
-		object->position += 0.1f*(model * math::float4(0.0f, 0.0f, 1.0f, 1.0f)).Float3Part();
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::KEY_REPEAT)
-	{ // Move RIGHT
-		math::float4x4 model = object->RotationMatrix();
-		object->position -= 0.1f*(model * math::float4(1.0f, 0.0f, 0.0f, 1.0f)).Float3Part();
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KeyState::KEY_REPEAT)
-	{ // Move LEFT
-		math::float4x4 model = object->RotationMatrix();
-		object->position += 0.1f*(model * math::float4(1.0f, 0.0f, 0.0f, 1.0f)).Float3Part();
-	}
-
-
-	// Rotation
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KeyState::KEY_REPEAT)
-	{ // y-axis
-		math::float4x4 model = object->RotationMatrix().Inverted();
-		object->rotation.y += 0.5f;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_W) == KeyState::KEY_REPEAT)
-	{ // y-axis
-		math::float4x4 model = object->RotationMatrix().Inverted();
-		object->rotation.y -= 0.5f;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_E) == KeyState::KEY_REPEAT)
-	{ // x-axis
-		object->rotation.x += 0.5f;
-	}
-	if()
-
-	if (App->input->GetKey(SDL_SCANCODE_R) == KeyState::KEY_REPEAT)
-	{ // x-axis
-		object->rotation.x -= 0.5f;
-	}*/
-
-	// Mouse control
-	if (App->input->mouse_buttons[SDL_BUTTON_RIGHT - 1] == KEY_DOWN)
-	{
-		if (App->input->keyboard[SDL_SCANCODE_E])
-		{
-			newPos += axiY * movSpeed;
-			cameraChanged = true;
-		}
-		if (App->input->keyboard[SDL_SCANCODE_Q])
-		{
-			newPos -= axiY * movSpeed;
-			cameraChanged = true;
-		}
-		if (App->input->keyboard[SDL_SCANCODE_W])
-		{
-			newPos += forward * movSpeed;
-			cameraChanged = true;
-		}
-		if (App->input->keyboard[SDL_SCANCODE_S]) {
-			newPos -= forward * movSpeed;
-			cameraChanged = true;
-		}
-		if (App->input->keyboard[SDL_SCANCODE_A])
-		{
-			newPos -= side * movSpeed;
-			cameraChanged = true;
-		}
-		if (App->input->keyboard[SDL_SCANCODE_D]) {
-			newPos += side * movSpeed;
-			cameraChanged = true;
-		}
-
-	if (App->input->keyboard[SDL_SCANCODE_LSHIFT]) 
-	{
-		movSpeed = speedMov * 2;
-	}
-	else
-	{
-		movSpeed = speedMov;
-	}
-
-	// Focus on Model
-	if (App->input->keyboard[SDL_SCANCODE_F])
-	{
-		FocusModel();
-	}
-
-	//mouse rotation
-	if (!rightButton) 
-	{
-		lastPos = App->input->mouse_position;
-		rightButton = true;
-	}
-	else 
-	{
-		actualPos = App->input->mouse_position;
-		calcNewPos = { actualPos.x - lastPos.x, actualPos.y - lastPos.y };
-
-		Quat rot;
-
-		if (calcNewPos.x != 0)
-		{
-			rot = Quat::RotateAxisAngle(axiY, -calcNewPos.x * rotSpeed);
-			forward = (rot * forward).Normalized();
-			side = (rot * side).Normalized();
-			up = (rot * up).Normalized();
-		}
-		if (calcNewPos.y != 0)
-		{
-			rot = Quat::RotateAxisAngle(side, -calcNewPos.y * rotSpeed);
-			forward = (rot * forward).Normalized();
-			up = (side.Cross(forward)).Normalized();
-		}
-
-		lastPos = actualPos;
-		cameraChanged = true;
-	}
-	}
-	else 
-	{
-		rightButton = false;
-	}
-
-	if (cameraChanged) {
-		UpdateFrustum();
-		cameraChanged = false;
+		cameraPosition = math::float3(0.0f, 1.0f, 10.0f);
+		cameraFront = math::float3(0.0f, 0.0f, -1.0f);
+		cameraUp = math::float3(0.0f, 1.0f, 0.0f);
 	}
 
 	return UPDATE_CONTINUE;
 }
 
-void ModuleCamera::FocusModel() {
-	newPos = 
-	{
-		App->modelLoader->boundingBox->CenterPoint().x,
-		App->modelLoader->boundingBox->CenterPoint().y,
-		App->modelLoader->boundingBox->CenterPoint().z + App->modelLoader->boundingBox->Diagonal().Length()
-	};
 
-	LookAt(App->modelLoader->boundingBox->CenterPoint());
-	UpdateFrustum();
+update_status ModuleCamera::Update()
+{
+	math::float4x4 model(math::float4x4::identity);
+	glUseProgram(App->shaderProgram->axisProgram);
+	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->axisProgram, "model"), 1, GL_TRUE, &model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->axisProgram, "view"), 1, GL_TRUE, &App->camera->LookAt(App->camera->cameraPosition, App->camera->cameraFront, App->camera->cameraUp)[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(App->shaderProgram->axisProgram, "proj"), 1, GL_TRUE, &App->camera->frustum.ProjectionMatrix()[0][0]);
+	RefenceGround();
+	ReferenceAxis();
+	glDrawArrays(GL_LINES, 0, 1);
+	glUseProgram(0);
+
+	return UPDATE_CONTINUE;
 }
-
-void ModuleCamera::LookAt(math::float3& target) {
-
-	dir = (target - newPos).Normalized();
-	rot = float3x3::LookAt(forward, dir, up, axiY);
-	up = rot * up;
-	forward = rot * forward;
-	side = rot * side;
-}
-
-void ModuleCamera::UpdateFrustum() {
-	frustum.pos = newPos;
-	frustum.front = forward.Normalized();
-	frustum.up = up.Normalized();
-
-	view = frustum.ViewMatrix();
-	projection = frustum.ProjectionMatrix();
- }
 
 bool ModuleCamera::CleanUp()
 {
 	return true;
 }
 
+
+math::float4x4 ModuleCamera::LookAt(math::float3& cameraPosition, math::float3& cameraFront, math::float3& cameraUp)
+{
+	math::float4x4 matrix;
+
+	cameraFront.Normalize();
+	math::float3 side(cameraFront.Cross(cameraUp));
+	side.Normalize();
+	math::float3 up(side.Cross(cameraFront));
+
+	matrix[0][0] = side.x; matrix[0][1] = side.y; matrix[0][2] = side.z;
+	matrix[1][0] = up.x; matrix[1][1] = up.y; matrix[1][2] = up.z;
+	matrix[2][0] = -cameraFront.x; matrix[2][1] = -cameraFront.y; matrix[2][2] = -cameraFront.z;
+	matrix[0][3] = -side.Dot(cameraPosition); matrix[1][3] = -up.Dot(cameraPosition); matrix[2][3] = cameraFront.Dot(cameraPosition);
+	matrix[3][0] = 0.0f; matrix[3][1] = 0.0f; matrix[3][2] = 0.0f; matrix[3][3] = 1.0f;
+	return matrix;
+}
+
+void ModuleCamera::MouseUpdate(const iPoint& mousePosition)
+{
+	if (firstMouse) {
+		lastX = mousePosition.x;
+		lastY = mousePosition.y;
+		firstMouse = false;
+	}
+
+	float xoffset = mousePosition.x - lastX;
+	float yoffset = lastY - mousePosition.y;
+	lastX = mousePosition.x;
+	lastY = mousePosition.y;
+
+	xoffset *= 0.5f;
+	yoffset *= 0.5f;
+
+	yaw += xoffset;
+	pitch += yoffset;
+
+	pitch = math::Clamp(pitch, -89.0f, 89.0f);
+
+	math::float3 front;
+	front.x = SDL_cosf(math::DegToRad(yaw)) * SDL_cosf(math::DegToRad(pitch));
+	front.y = SDL_sinf(math::DegToRad(pitch));
+	front.z = SDL_sinf(math::DegToRad(yaw)) * SDL_cosf(math::DegToRad(pitch));
+	cameraFront = front.Normalized();
+}
+
+
+void ModuleCamera::Zoom(const iPoint& mousePosition)
+{
+	float yoffset = lastY - mousePosition.y;
+	if (fov >= 1.0f && fov <= 45.0f)
+		fov -= yoffset;
+	if (fov <= 1.0f)
+		fov = 1.0f;
+	if (fov >= 45.0f)
+		fov = 45.0f;
+}
+
+void ModuleCamera::SetAspectRatio(float aspect_ratio)
+{
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect_ratio);
+}
+
+void ModuleCamera::SetFOV(float fov)
+{
+	float aspect_ratio = frustum.AspectRatio();
+
+	frustum.verticalFov = math::pi * fov;
+	SetAspectRatio(aspect_ratio);
+}
+
+void ModuleCamera::SetPlaneDistances(float nearDist, float farDist)
+{
+	if (nearDist > 0.0f && nearDist < frustum.farPlaneDistance)
+	{
+		frustum.nearPlaneDistance = nearDist;
+	}
+
+	if (farDist > 0.0f && farDist > frustum.nearPlaneDistance)
+	{
+		frustum.farPlaneDistance = farDist;
+	}
+}
+
+void ModuleCamera::RefenceGround()
+{
+	glLineWidth(1.0f);
+	float d = 200.0f;
+	float color[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glUniform4fv(glGetUniformLocation(App->shaderProgram->axisProgram, "newColor"), 1, color);
+	glBegin(GL_LINES);
+	for (float i = -d; i <= d; i += 1.0f)
+	{
+		glVertex3f(i, 0.0f, -d);
+		glVertex3f(i, 0.0f, d);
+		glVertex3f(-d, 0.0f, i);
+		glVertex3f(d, 0.0f, i);
+	}
+	glEnd();
+}
+
+void ModuleCamera::ReferenceAxis()
+{
+	glLineWidth(2.0f);
+
+	// red X
+	float red[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	glUniform4fv(glGetUniformLocation(App->shaderProgram->axisProgram, "newColor"), 1, red);
+
+	glBegin(GL_LINES);
+	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 0.1f, 0.0f); glVertex3f(1.1f, -0.1f, 0.0f);
+	glVertex3f(1.1f, 0.1f, 0.0f); glVertex3f(1.0f, -0.1f, 0.0f);
+	glEnd();
+
+	// green Y
+	float green[4] = { 0.0f, 1.0f, 0.0f, 1.0f };
+	glUniform4fv(glGetUniformLocation(App->shaderProgram->axisProgram, "newColor"), 1, green);
+
+	glBegin(GL_LINES);
+	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(-0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
+	glVertex3f(0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
+	glVertex3f(0.0f, 1.15f, 0.0f); glVertex3f(0.0f, 1.05f, 0.0f);
+	glEnd();
+
+	// blue Z
+	float blue[4] = { 0.0f, 0.0f, 1.0f, 1.0f };
+	glUniform4fv(glGetUniformLocation(App->shaderProgram->axisProgram, "newColor"), 1, blue);
+
+	glBegin(GL_LINES);
+	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(-0.05f, 0.1f, 1.05f); glVertex3f(0.05f, 0.1f, 1.05f);
+	glVertex3f(0.05f, 0.1f, 1.05f); glVertex3f(-0.05f, -0.1f, 1.05f);
+	glVertex3f(-0.05f, -0.1f, 1.05f); glVertex3f(0.05f, -0.1f, 1.05f);
+	glEnd();
+
+	glLineWidth(1.0f);
+}
+
+// Code adapted from www.learnOpenGl.com
