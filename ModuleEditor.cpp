@@ -223,22 +223,16 @@ update_status ModuleEditor::Update()
 	//Menu
 	ImGui::BeginMainMenuBar();
 
-	if (ImGui::BeginMenu("File"))
+	if (ImGui::BeginMenu("Exit"))
 	{
-		if (ImGui::MenuItem("Exit"))
-		{
-			return UPDATE_STOP;
-		}
+		return UPDATE_STOP;
 
 		ImGui::EndMenu();
 	}
 
-	if (ImGui::BeginMenu("Help"))
+	if (ImGui::BeginMenu("Repository"))
 	{
-		if (ImGui::MenuItem("Repository"))
-		{
-			ShellExecute(NULL, "open", "https://github.com/Gabroide/FirstExcercise", NULL, NULL, SW_SHOWNORMAL);
-		}
+		ShellExecute(NULL, "open", "https://github.com/Gabroide/FirstExcercise", NULL, NULL, SW_SHOWNORMAL);
 		
 		ImGui::EndMenu();
 	}
