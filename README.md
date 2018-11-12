@@ -14,7 +14,7 @@ directions. To orbit arround an object the right buon mus be clicked and move th
 <p>If the user wans a faster movements, then the left shift key from keyboard must be clicked, doing it the desplacement
 speed is doublle.</p>
 
-<h2>Bibliagraphy</h2>
+<h2>Bibliography</h2>
 <p>The Engine has been created following and addapting the code from https:www.learnopengl.com</p>
 
 <h2>Terms of use</h2>
